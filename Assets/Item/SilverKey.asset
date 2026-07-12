@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8199db633740d7a4aacc1b175acab127, type: 3}
+  m_Name: SilverKey
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  value: 0
+  type: 0
+  itemName: SilverKey
+  itemSprite: {fileID: 8033092973025764044, guid: 5e587a8be0045ac498fc8128c5a82a73, type: 3}
