@@ -23,12 +23,13 @@ public class PlayerController : MonoBehaviour
     float pressTime;
 
     public static float life = 1.0f;
-    public GameState gameState;
+    public GameState gameState; 
     bool inDamage = false;
 
     void OnLongPressStarted (InputAction.CallbackContext context)
     {
-        Debug.Log("Started;");
+         bowObj.SetActive(true);   // 攻撃時に弓を表示 (0713)
+         Debug.Log("Started;");
     }
     void OnLongPressPerformed(InputAction.CallbackContext context)
     {
@@ -36,6 +37,9 @@ public class PlayerController : MonoBehaviour
     }
     void OnAttackCallback(InputAction.CallbackContext context)
     {
+        
+       bowObj.SetActive(false);   // 矢を放つと同時に弓をしまう (0713)     
+       
         if (hasArrows > 0)
         {
             ShootArrow();
@@ -47,7 +51,12 @@ public class PlayerController : MonoBehaviour
         bowObj.transform.localScale = new Vector3(1, 1, 1);
         hasArrows -= 1;
         Quaternion r = Quaternion.Euler(0, 0, angleZ);
-        GameObject arrowObj = Instantiate(arrowPrefab, transform.position, r);
+        // GameObject arrowObj = Instantiate(arrowPrefab, transform.position, r);
+        // 矢を飛ばすための修正(0713)
+        Vector2 forward = new Vector2(Mathf.Cos(angleZ * Mathf.Deg2Rad),Mathf.Sin(angleZ * Mathf.Deg2Rad));
+        GameObject arrowObj = Instantiate(arrowPrefab,(Vector2)transform.position + forward * 0.3f,r);
+
+
         if (pressTime >= 1)
         {
             ArrowController arrow = arrowObj.GetComponent<ArrowController>();
@@ -110,6 +119,7 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position;
         bowObj = Instantiate(bowPrefab, pos, Quaternion.identity);
         bowObj.transform.SetParent(transform);
+        bowObj.SetActive(false); // 通常時は弓を非表示 (0713)
         PlayerInput input = GetComponent<PlayerInput>();
         attackAction = input.currentActionMap.FindAction("Attack");
         attackAction.started += OnLongPressStarted;
@@ -117,6 +127,8 @@ public class PlayerController : MonoBehaviour
         attackAction.canceled += OnAttackCallback;
 
         gameState = GameState.InGame;
+
+
 
     }
     void OnDisable()
@@ -132,6 +144,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (gameState != GameState.InGame || inDamage)
         {
             if (inDamage)
@@ -157,14 +170,18 @@ public class PlayerController : MonoBehaviour
             animator.SetInteger("Direction", (int)direction);
         }
 
-        float bowZ = -1f;
-        // このスクリプト内で角度を管理するため、PlayerController から参照しない
-        if (angleZ > 30f && angleZ < 150f)
-        {
-            bowZ = 1f;
-        }
+        // 弓を表示するための修正 (0713)
+        // float bowZ = -1f;
+             // if (angleZ > 30f && angleZ < 150f)
+       //  {
+       //     bowZ = 1f;
+       //  }
         bowObj.transform.rotation = Quaternion.Euler(0, 0, angleZ);
-        bowObj.transform.position = new Vector3(transform.position.x, transform.position.y, bowZ);
+        //  bowObj.transform.position = new Vector3(transform.position.x, transform.position.y, bowZ);
+        bowObj.transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
+
+
+
 
         if (hasArrows > 0)
         {
@@ -175,13 +192,15 @@ public class PlayerController : MonoBehaviour
                                                           1 + (pressTime * 0.5f),
                                                           1);
             }
+
         }
+       
 
     }
 
     private void FixedUpdate()
     {
-        // rbody.linearVelocity = moveVec * speed;
+        rbody.linearVelocity = moveVec * speed;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -205,10 +224,10 @@ public class PlayerController : MonoBehaviour
                 inDamage = true;
                 Invoke("DamageEnd", 0.25f);
             }
-        }
-        else
-        {
-            GameOver();
+            else
+            {
+                GameOver();
+            }
         }
     }
     void DamageEnd()
@@ -219,11 +238,12 @@ public class PlayerController : MonoBehaviour
     void GameOver()
     {
         gameState = GameState.GameOver;
-        GetComponent<CircleCollider2D>().enabled = false;
+        // GetComponent<CircleCollider2D>().enabled = false;
         rbody.linearVelocity = Vector2.zero;  
-        rbody.gravityScale = 1;
+        // rbody.gravityScale = 1;
         rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
-        animator.SetTrigger("IsDead");
+         animator.SetTrigger("IsDead");
+
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -248,4 +268,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    
 }

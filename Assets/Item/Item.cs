@@ -16,4 +16,15 @@ public class Item : MonoBehaviour
     {
         
     }
+
+    // PlayerDownしかアイテムが取れないような強制プログラム (0716)
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Player")) return;
+        if (collision.name != "PlayerDown") return; // ★追加
+
+        Debug.Log("Item Picked by: " + collision.name);
+        Destroy(gameObject);
+    }
+
 }

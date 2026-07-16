@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float hp = 3f;
-    public float speed = 0.5f;
+    public float hp = 5f;
+    public float speed = 1.0f;
     public float reactionDistance = 4.0f;
 
     float axisH;
@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        
         // プレイヤー取得
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
@@ -70,11 +71,11 @@ public class EnemyController : MonoBehaviour
     }
 
     // ★ Trigger に統一（矢が弾かれない）
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Arrow"))
+        if (collision.gameObject.tag == ("Arrow"))
         {
-            ArrowController arrow = collision.GetComponent<ArrowController>();
+            ArrowController arrow = collision.gameObject.GetComponent<ArrowController>();
             hp -= arrow.attackPower;
 
             if (hp <= 0)
@@ -101,7 +102,7 @@ public class EnemyController : MonoBehaviour
         }
 
         // ★ Animator のパラメータ名は "isDead" に統一
-        animator.SetTrigger("isDead");
+        animator.SetTrigger("IsDead");
 
         // 1秒後に削除
         Destroy(gameObject, 1.0f);
