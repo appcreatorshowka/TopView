@@ -142,45 +142,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GameStart_0
+      name: GameStart_2
       rect:
         serializedVersion: 2
-        x: 15
-        y: 15
-        width: 361
-        height: 125
+        x: 0
+        y: 0
+        width: 800
+        height: 154
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1ac25666ab8571300800000000000000
-      internalID: 222744264183196833
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GameStart_1
-      rect:
-        serializedVersion: 2
-        x: 406
-        y: 15
-        width: 385
-        height: 125
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e6521eaf3ebe3a780800000000000000
-      internalID: -8672829092986280594
+      spriteID: 1375686fe6f485444b7607529442bbf0
+      internalID: 1883188910
       vertices: []
       indices: 
       edges: []
@@ -189,7 +167,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f32168c3e71daed40934356b8b565e21
     internalID: 0
     vertices: []
     indices: 
@@ -201,6 +179,7 @@ TextureImporter:
     nameFileIdTable:
       GameStart_0: 222744264183196833
       GameStart_1: -8672829092986280594
+      GameStart_2: 1883188910
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,3 +1,4 @@
+using UnityEditor.Build.Content; 
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -70,6 +71,10 @@ public class PlayerController : MonoBehaviour
         {
             body.AddForce(v, ForceMode2D.Impulse);
         }
+
+        GameManager gm = GameObject.FindAnyObjectByType<GameManager>();
+        gm.UpdateItemCount(ItemType.Arrow, hasArrows);
+        gm.UpdatePower(0);
     }
 
     float GetAngle()
@@ -125,8 +130,15 @@ public class PlayerController : MonoBehaviour
         attackAction.started += OnLongPressStarted;
         attackAction.performed += OnLongPressPerformed;
         attackAction.canceled += OnAttackCallback;
+        InputActionMap uiMap = input.actions.FindActionMap("UI");
+        uiMap.Disable();
 
         gameState = GameState.InGame;
+
+        GameManager gm = GameObject.FindAnyObjectByType<GameManager>(); // GameManager取得
+        gm.UpdateLife(life); // ライフを更新
+        gm.UpdateItemCount(ItemType.Arrow, hasArrows); // 矢を更新
+        gm.UpdateItemCount(ItemType.SilverKey, hasSilverKeys); // シルバーキーを更新
 
 
 
@@ -191,6 +203,9 @@ public class PlayerController : MonoBehaviour
                 bowObj.transform.localScale = new Vector3(1 - (pressTime * 0.2f),
                                                           1 + (pressTime * 0.5f),
                                                           1);
+
+                GameManager gm = GameObject.FindAnyObjectByType<GameManager>();
+                gm.UpdatePower(pressTime);
             }
 
         }
@@ -216,6 +231,8 @@ public class PlayerController : MonoBehaviour
         if (gameState == GameState.InGame)
         {
             life -= 0.25f;
+            GameManager gm = GameObject.FindAnyObjectByType<GameManager>();
+            gm.UpdateLife(life);
             if (life > 0)
             {
                 rbody.linearVelocity = Vector2.zero;
@@ -244,20 +261,29 @@ public class PlayerController : MonoBehaviour
         rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
          animator.SetTrigger("IsDead");
 
+        PlayerInput input = GetComponent<PlayerInput>();
+        input.currentActionMap.Disable();
+        input.SwitchCurrentActionMap("UI");
+        input.currentActionMap.Enable();
+
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Item")
         {
+            GameManager gm = GameObject.FindAnyObjectByType<GameManager>();
             Item item = collision.gameObject.GetComponent<Item>();
             if (ItemType.SilverKey == item.itemdata.type)
             {
                 hasSilverKeys++;
+                gm.UpdateItemCount(ItemType.SilverKey, hasSilverKeys);
+
             }
             else if (ItemType.Arrow == item.itemdata.type)
             {
                 hasArrows += (int)item.itemdata.value;
+                gm.UpdateItemCount(ItemType.Arrow, hasArrows);
             }
             else if (ItemType.Life == item.itemdata.type)
             {
@@ -269,5 +295,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnSubmit(InputValue value)
+    {
+        if (gameState != GameState.InGame)
+        {
+            GameManager gm = GameObject.FindAnyObjectByType<GameManager>();
+            gm.Retry();
+        }
+    }
     
 }
