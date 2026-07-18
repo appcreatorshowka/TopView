@@ -24,25 +24,25 @@ public class ArrowController : MonoBehaviour
         if (damaged) return;  // ← 2回目以降は無視
         damaged = true;
 
-        // 25-38 (0715)
-        // ★敵に当たった場合
+        //// 25-38 (0715)
+        //// ★敵に当たった場合
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
-            enemy.hp -= attackPower;
+            //    EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+            //    enemy.hp -= attackPower;
 
             // ダメージを入れたら矢を消す
             Destroy(gameObject);
-            return;
+        return;
         }
 
         // ★地形に当たった場合だけ刺さる演出
-        if (collision.gameObject.CompareTag("Wall") ||
-            collision.gameObject.CompareTag("Ground"))
-
-
-            transform.SetParent(collision.transform);
+        //if (collision.gameObject.CompareTag("Wall") ||
+        //    collision.gameObject.CompareTag("Ground"))
+        //{
+        transform.SetParent(collision.transform);
         GetComponent<CircleCollider2D>().enabled = false;
         GetComponent<Rigidbody2D>().simulated = false;
+        //}
     }
 }

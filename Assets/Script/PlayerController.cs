@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         GameObject arrowObj = Instantiate(arrowPrefab,(Vector2)transform.position + forward * 0.3f,r);
 
 
-        if (pressTime >= 1)
+        if (pressTime >= 0.7f)
         {
             ArrowController arrow = arrowObj.GetComponent<ArrowController>();
             arrow.attackPower *= 2;
