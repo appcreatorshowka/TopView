@@ -1,6 +1,7 @@
 using UnityEditor.Build.Content; 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,12 +28,44 @@ public class PlayerController : MonoBehaviour
     public GameState gameState; 
     bool inDamage = false;
 
-    void OnLongPressStarted (InputAction.CallbackContext context)
+    public static int hasLights = 0;
+
+    public bool isUseLight;
+    Light2D light2d;
+    GameObject lightObj;
+    float lightTimer = 0.0f;
+
+    public void UpdateLight() // ライトの残量と照射範囲
+    {
+        // (0720) 
+        //if (hasLights == 0 || isUseLight == false)
+        //{
+        //    light2d.pointLightOuterRadius = 0; 
+        //}
+        //else
+        //{
+        //    light2d.pointLightOuterRadius = 7;
+        //}
+
+        //GameManager gm = GameObject.FindAnyObjectByType<GameManager>();
+        //gm.UpdateItemCount(ItemType.Light, hasLights);
+
+        // 手持ちライトは残量で点灯・消灯
+        light2d.pointLightOuterRadius = (hasLights > 0) ? 7 : 0;
+
+        // UI 更新
+        GameManager gm = GameObject.FindAnyObjectByType<GameManager>();
+        gm.UpdateItemCount(ItemType.Light, hasLights);
+        
+
+    }
+
+    void OnLongPressStarted (InputAction.CallbackContext context) 
     {
          bowObj.SetActive(true);   // 攻撃時に弓を表示 (0713)
          Debug.Log("Started;");
     }
-    void OnLongPressPerformed(InputAction.CallbackContext context)
+    void OnLongPressPerformed(InputAction.CallbackContext context) 
     {
         Debug.Log("Performed;");
     }
@@ -47,7 +80,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void ShootArrow()
+    void ShootArrow() //　矢を放つ
     {
         bowObj.transform.localScale = new Vector3(1, 1, 1);
         hasArrows -= 1;
@@ -140,7 +173,12 @@ public class PlayerController : MonoBehaviour
         gm.UpdateItemCount(ItemType.Arrow, hasArrows); // 矢を更新
         gm.UpdateItemCount(ItemType.SilverKey, hasSilverKeys); // シルバーキーを更新
 
-
+        // (0720) プレイヤーライトを残量に応じて更新
+        //lightObj = transform.Find("Light 2D").gameObject;
+        //light2d = lightObj.GetComponentInChildren<Light2D>();
+        //UpdateLight();
+        light2d = transform.Find("PlayerLight").GetComponentInChildren<Light2D>();
+        UpdateLight();
 
     }
     void OnDisable()
@@ -192,9 +230,6 @@ public class PlayerController : MonoBehaviour
         //  bowObj.transform.position = new Vector3(transform.position.x, transform.position.y, bowZ);
         bowObj.transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
 
-
-
-
         if (hasArrows > 0)
         {
             pressTime = attackAction.GetTimeoutCompletionPercentage();
@@ -209,7 +244,18 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-       
+
+        if (hasLights > 0)
+        {
+            light2d.transform.localEulerAngles = new Vector3(0, 0, angleZ - 90); // (0720)lightObj->light2dに変更
+            lightTimer += Time.deltaTime;
+            if (lightTimer >= 10.0f)
+            {
+                lightTimer = 0.0f;
+                hasLights--;
+                UpdateLight();
+            }
+        }
 
     }
 
@@ -268,7 +314,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)　// アイテム取得関連
     {
         if (collision.gameObject.tag == "Item")
         {
@@ -284,6 +330,14 @@ public class PlayerController : MonoBehaviour
             {
                 hasArrows += (int)item.itemdata.value;
                 gm.UpdateItemCount(ItemType.Arrow, hasArrows);
+            }
+            else if (ItemType.Light == item.itemdata.type)
+            {
+                // (0720)
+                //hasLights += (int)item.itemdata.value;
+                //gm.UpdateItemCount(ItemType.Light, hasLights);
+                hasLights += (int)item.itemdata.value;  // 触れるたびに増える
+                UpdateLight();                          // 手持ちライトの状態更新
             }
             else if (ItemType.Life == item.itemdata.type)
             {

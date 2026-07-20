@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Item : MonoBehaviour
 {
@@ -23,8 +24,20 @@ public class Item : MonoBehaviour
         if (!collision.CompareTag("Player")) return;
         if (collision.name != "PlayerDown") return; // ★追加
 
-        Debug.Log("Item Picked by: " + collision.name);
-        Destroy(gameObject);
+        // (0730)
+        if (itemdata.type == ItemType.Light)
+        {
+            // ライトは壊さない（Player側でカウントする）
+            return;
+        }
+        else
+        {
+            // ライト以外は壊す
+            Destroy(gameObject);
+        }
+
+        //Debug.Log("Item Picked by: " + collision.name);
+        //Destroy(gameObject);
     }
 
 }

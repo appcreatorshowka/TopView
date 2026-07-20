@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8199db633740d7a4aacc1b175acab127, type: 3}
-  m_Name: SilverKey
+  m_Name: Light
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   value: 1
-  type: 0
-  itemName: SilverKey
-  itemSprite: {fileID: 8033092973025764044, guid: 5e587a8be0045ac498fc8128c5a82a73, type: 3}
+  type: 3
+  itemName: Light
+  itemSprite: {fileID: -8493448570029590353, guid: c5b2fa4c16be8c1408394fb558de0a32, type: 3}
