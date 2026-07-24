@@ -145,19 +145,19 @@ TextureImporter:
       name: bt_gamestart_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 8
-        width: 353
-        height: 124
+        x: 10
+        y: 10
+        width: 348
+        height: 120
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cbd6cbcb7e4b45820800000000000000
+      spriteID: 4a7b81b43bb3a0b4b9080da669aa0bd6
       internalID: 2906146566957723068
       vertices: []
       indices: 
@@ -167,20 +167,42 @@ TextureImporter:
       name: bt_gamestart_1
       rect:
         serializedVersion: 2
-        x: 403
-        y: 8
-        width: 395
-        height: 124
+        x: 406
+        y: 10
+        width: 172
+        height: 121
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 71a8f6251d380b030800000000000000
+      spriteID: 2577cc9a9eea762498e678f285d3f6ac
       internalID: 3508449044776061463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bt_gamestart_2
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 10
+        width: 251
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0456e82c07fffa64693b0c25afdbceeb
+      internalID: 1599400788
       vertices: []
       indices: 
       edges: []
@@ -189,7 +211,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b741234134d36114fa294392d06448cb
     internalID: 0
     vertices: []
     indices: 
@@ -197,10 +219,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       bt_gamestart_0: 2906146566957723068
       bt_gamestart_1: 3508449044776061463
+      bt_gamestart_2: 1599400788
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
